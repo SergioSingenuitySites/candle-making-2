@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Foxfire Candle Works | Mockup by Singenuity</title>
+<meta name="description" content="Redesigned mockup of Foxfire Candle Works with a Singenuity-built booking flow demo." />
+<style>
+  :root{
+    --espresso:#2a1d12;
+    --ink:#33261a;
+    --honey:#e0a437;
+    --amber:#c87b2a;
+    --copper:#b1612f;
+    --ember:#e8612c;
+    --cream:#faf2e4;
+    --warm-white:#fffdf8;
+    --paper:#f4e8d6;
+    --muted:rgba(51,38,26,.66);
+    --line:rgba(51,38,26,.14);
+    --shadow:0 26px 80px rgba(42,29,18,.22);
+    --radius:24px;
+    --font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --display:"Georgia","Times New Roman",serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;font-family:var(--font);color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 4%, rgba(224,164,55,.18), transparent 26rem),
+      radial-gradient(circle at 96% 8%, rgba(177,97,47,.14), transparent 30rem),
+      linear-gradient(180deg,#fffdf8 0%, #faf2e4 46%, #f6ead7 100%);
+    overflow-x:hidden;
+  }
+  body.modal-open{overflow:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font:inherit;}
+  h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;line-height:1.08;}
+  .container{width:min(1180px,calc(100% - 40px));margin:0 auto;}
+  .section{padding:96px 0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+    background:rgba(224,164,55,.16);border:1px solid rgba(224,164,55,.36);color:var(--copper);
+    font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  }
+  .btn{
+    display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:52px;padding:0 26px;
+    border:0;border-radius:999px;background:linear-gradient(135deg,var(--ember),var(--amber) 60%,var(--honey));
+    color:#fff;font-weight:800;font-size:15px;letter-spacing:.01em;
+    box-shadow:0 16px 36px rgba(200,123,42,.34);cursor:pointer;transition:transform .18s,box-shadow .18s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 22px 46px rgba(200,123,42,.42);}
+  .btn.ghost{background:transparent;color:var(--espresso);border:1.5px solid var(--line);box-shadow:none;}
+  .btn.ghost:hover{border-color:var(--amber);}
+  .btn.light{background:rgba(255,253,248,.92);color:var(--espresso);box-shadow:none;border:1px solid rgba(255,255,255,.5);}
+
+  /* NAV */
+  .topbar{position:fixed;top:16px;left:0;width:100%;z-index:40;pointer-events:none;}
+  .nav{
+    pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:11px 12px 11px 18px;border-radius:999px;background:rgba(42,29,18,.82);color:#fff;
+    border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.24);backdrop-filter:blur(16px);
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;font-size:18px;}
+  .brand .mark{width:40px;height:40px;border-radius:50%;display:block;box-shadow:inset 0 0 0 2px rgba(255,255,255,.22);}
+  .nav-links{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:600;}
+  .nav-links a{opacity:.85;}.nav-links a:hover{opacity:1;}
+  @media(max-width:860px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{position:relative;min-height:760px;display:grid;align-items:center;padding:150px 0 90px;color:#fff;overflow:hidden;isolation:isolate;}
+  .hero-bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;}
+  .hero-bg svg{width:100%;height:100%;object-fit:cover;}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(26,16,8,.78) 0%,rgba(26,16,8,.42) 48%,rgba(26,16,8,.12) 100%);}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
+  .hero h1{font-size:clamp(40px,6vw,68px);margin:18px 0 16px;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.3);}
+  .hero p.lead{font-size:19px;line-height:1.55;color:rgba(255,255,255,.9);max-width:34ch;margin:0 0 28px;}
+  .hero .eyebrow{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28);color:#ffe7c2;}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .hero-note{margin-top:22px;font-size:14px;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:9px;}
+  .hero-card{justify-self:end;}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}.hero-card{display:none;}}
+
+  .float-card{
+    width:300px;background:rgba(255,253,248,.94);border-radius:22px;padding:18px;box-shadow:var(--shadow);
+    border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(6px);color:var(--ink);
+  }
+  .float-card .fc-img{border-radius:14px;overflow:hidden;margin-bottom:13px;}
+  .float-card h4{margin:0 0 4px;font-family:var(--display);font-size:18px;}
+  .float-card .price{color:var(--copper);font-weight:800;}
+  .float-card .row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
+
+  /* STAT STRIP */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:-46px;position:relative;z-index:5;}
+  .stat{background:var(--warm-white);border:1px solid var(--line);border-radius:18px;padding:22px 20px;box-shadow:0 14px 40px rgba(42,29,18,.08);}
+  .stat b{display:block;font-family:var(--display);font-size:30px;color:var(--copper);}
+  .stat span{font-size:13.5px;color:var(--muted);}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* SECTION HEADERS */
+  .sec-head{max-width:640px;margin-bottom:44px;}
+  .sec-head h2{font-size:clamp(30px,4vw,44px);margin:14px 0 12px;}
+  .sec-head p{font-size:17px;line-height:1.6;color:var(--muted);margin:0;}
+
+  /* EXPERIENCE STEPS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .step{background:var(--warm-white);border:1px solid var(--line);border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;}
+  .step .n{font-family:var(--display);font-size:15px;font-weight:700;color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--ember),var(--amber));margin-bottom:16px;}
+  .step h3{font-size:20px;margin:0 0 8px;}
+  .step p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55;}
+  @media(max-width:860px){.steps{grid-template-columns:repeat(2,1fr);}}
+
+  /* PRODUCTS */
+  .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .prod{background:var(--warm-white);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 34px rgba(42,29,18,.07);transition:transform .2s,box-shadow .2s;}
+  .prod:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(42,29,18,.13);}
+  .prod .pimg{aspect-ratio:4/3;overflow:hidden;}
+  .prod .pbody{padding:20px 22px 24px;}
+  .prod h3{font-size:21px;margin:0 0 6px;}
+  .prod p{margin:0 0 12px;color:var(--muted);font-size:14.5px;line-height:1.5;}
+  .prod .price{font-weight:800;color:var(--copper);}
+  @media(max-width:860px){.prod-grid{grid-template-columns:1fr;}}
+
+  /* SCENT BAND */
+  .band{position:relative;border-radius:32px;overflow:hidden;color:#fff;padding:64px 56px;isolation:isolate;}
+  .band-bg{position:absolute;inset:0;z-index:-2;}
+  .band::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(26,16,8,.82),rgba(26,16,8,.35));}
+  .band h2{font-size:clamp(28px,4vw,42px);color:#fff;margin:14px 0 14px;max-width:18ch;}
+  .band p{max-width:46ch;color:rgba(255,255,255,.9);font-size:17px;line-height:1.6;}
+  .scent-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;max-width:640px;}
+  .chip{padding:8px 15px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);font-size:13.5px;font-weight:600;}
+
+  /* LOCATIONS */
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .loc{background:var(--warm-white);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 12px 34px rgba(42,29,18,.07);}
+  .loc h3{font-size:23px;margin:0 0 4px;}
+  .loc .tag{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--copper);}
+  .loc p{color:var(--muted);margin:14px 0;line-height:1.6;font-size:15px;}
+  @media(max-width:760px){.loc-grid{grid-template-columns:1fr;}}
+
+  /* FAQ */
+  .faq{max-width:820px;margin:0 auto;}
+  details{border-bottom:1px solid var(--line);padding:20px 4px;}
+  details summary{cursor:pointer;list-style:none;font-family:var(--display);font-size:19px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary .pl{color:var(--amber);font-size:24px;transition:transform .2s;}
+  details[open] summary .pl{transform:rotate(45deg);}
+  details p{margin:14px 0 0;color:var(--muted);line-height:1.65;font-size:15.5px;}
+
+  /* CTA FOOTER */
+  .endcta{text-align:center;background:linear-gradient(135deg,#2a1d12,#46301a);color:#fff;border-radius:32px;padding:72px 40px;position:relative;overflow:hidden;}
+  .endcta h2{font-size:clamp(30px,4.5vw,48px);color:#fff;margin:0 0 14px;}
+  .endcta p{color:rgba(255,255,255,.85);max-width:48ch;margin:0 auto 28px;font-size:17px;line-height:1.6;}
+  footer{padding:54px 0 40px;color:var(--muted);}
+  .foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start;}
+  .foot-grid .b{display:flex;align-items:center;gap:11px;font-family:var(--display);font-size:20px;color:var(--ink);font-weight:700;}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap;font-size:14.5px;font-weight:600;}
+
+  /* ===== SINGENUITY POPUP ===== */
+  .overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:22px;
+    background:rgba(20,12,5,.62);backdrop-filter:blur(7px);opacity:0;transition:opacity .3s;}
+  .overlay.show{display:flex;opacity:1;}
+  .modal{width:min(960px,100%);max-height:92vh;overflow:hidden;background:var(--warm-white);border-radius:26px;
+    box-shadow:0 40px 120px rgba(0,0,0,.5);transform:translateY(18px) scale(.98);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;display:grid;grid-template-columns:.86fr 1.14fr;}
+  .overlay.show .modal{transform:none;opacity:1;}
+  @media(max-width:780px){.modal{grid-template-columns:1fr;max-height:94vh;overflow-y:auto;}}
+
+  .sg-pitch{background:linear-gradient(165deg,#211a2e 0%,#2d2342 55%,#3a2150 100%);color:#fff;padding:34px 30px;position:relative;overflow:hidden;}
+  .sg-pitch::before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-70px;background:radial-gradient(circle,rgba(124,92,255,.55),transparent 70%);}
+  .sg-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:17px;position:relative;}
+  .sg-brand .dot{width:30px;height:30px;border-radius:9px;background:conic-gradient(from 130deg,#7c5cff,#22d3d7,#ff7bd5,#7c5cff);box-shadow:0 6px 18px rgba(124,92,255,.5);}
+  .sg-pitch h2{color:#fff;font-size:27px;line-height:1.12;margin:26px 0 12px;}
+  .sg-pitch .sub{color:rgba(255,255,255,.78);font-size:14.5px;line-height:1.6;margin:0 0 22px;}
+  .sg-metrics{display:flex;flex-direction:column;gap:12px;}
+  .sg-metric{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:13px 15px;}
+  .sg-metric b{font-family:var(--display);font-size:25px;color:#fff;line-height:1;min-width:74px;}
+  .sg-metric .mwrap b{background:linear-gradient(90deg,#a78bff,#22d3d7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .sg-metric span{font-size:13px;color:rgba(255,255,255,.78);line-height:1.35;}
+  .sg-foot{position:absolute;bottom:22px;left:30px;right:30px;font-size:11.5px;color:rgba(255,255,255,.5);}
+
+  .sg-demo{padding:30px 32px;display:flex;flex-direction:column;min-height:520px;position:relative;}
+  .sg-close{position:absolute;top:16px;right:18px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:18px;cursor:pointer;display:grid;place-items:center;z-index:3;}
+  .sg-close:hover{color:var(--ink);border-color:var(--amber);}
+  .sg-demo-head{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
+  .sg-demo-head .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--copper);}
+  .sg-demo h3{font-size:21px;margin:0 0 18px;}
+  .progress{display:flex;gap:7px;margin-bottom:22px;}
+  .progress .seg{height:5px;flex:1;border-radius:999px;background:var(--paper);overflow:hidden;}
+  .progress .seg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--honey));transition:width .35s;}
+  .progress .seg.done i{width:100%;}
+  .progress .seg.active i{width:100%;}
+  .stepwrap{flex:1;}
+  .qlabel{font-weight:700;font-size:16.5px;margin:0 0 4px;font-family:var(--display);}
+  .qhint{color:var(--muted);font-size:13.5px;margin:0 0 16px;}
+  .opts{display:grid;gap:11px;}
+  .opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;transition:all .15s;text-align:left;width:100%;}
+  .opt:hover{border-color:var(--amber);background:rgba(224,164,55,.06);}
+  .opt.sel{border-color:var(--ember);background:rgba(232,97,44,.08);box-shadow:0 0 0 3px rgba(232,97,44,.12);}
+  .opt .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,rgba(232,97,44,.14),rgba(224,164,55,.18));font-size:20px;}
+  .opt .ot{font-weight:700;font-size:15px;}
+  .opt .od{font-size:12.5px;color:var(--muted);}
+  .opt .chk{margin-left:auto;color:var(--ember);font-weight:800;opacity:0;}
+  .opt.sel .chk{opacity:1;}
+  .grid2{grid-template-columns:1fr 1fr;}
+  .counter{display:flex;align-items:center;justify-content:center;gap:26px;padding:22px 0;}
+  .counter button{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:#fff;font-size:24px;cursor:pointer;color:var(--ink);}
+  .counter button:hover{border-color:var(--amber);}
+  .counter .num{font-family:var(--display);font-size:46px;font-weight:700;min-width:60px;text-align:center;}
+  .counter .cap{text-align:center;color:var(--muted);font-size:13px;}
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .slot{padding:12px 0;border:1.5px solid var(--line);border-radius:11px;background:#fff;cursor:pointer;font-weight:700;font-size:14px;transition:all .15s;}
+  .slot:hover{border-color:var(--amber);}
+  .slot.sel{border-color:var(--ember);background:var(--ember);color:#fff;}
+  .slot.dim{opacity:.4;cursor:not-allowed;text-decoration:line-through;}
+  .daypick{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;}
+  .day{flex-shrink:0;width:62px;padding:10px 0;border:1.5px solid var(--line);border-radius:13px;background:#fff;text-align:center;cursor:pointer;transition:all .15s;}
+  .day:hover{border-color:var(--amber);}
+  .day.sel{border-color:var(--ember);background:rgba(232,97,44,.08);}
+  .day .dn{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+  .day .dd{font-family:var(--display);font-size:21px;font-weight:700;}
+  .summary{background:var(--paper);border-radius:16px;padding:18px 20px;}
+  .summary .sr{display:flex;justify-content:space-between;padding:9px 0;font-size:14.5px;border-bottom:1px dashed rgba(51,38,26,.18);}
+  .summary .sr:last-child{border-bottom:0;}
+  .summary .sr b{font-weight:700;}
+  .confirm-hero{text-align:center;padding:6px 0 4px;}
+  .confirm-hero .big{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#34c77b,#1fa463);display:grid;place-items:center;margin:0 auto 16px;box-shadow:0 14px 30px rgba(31,164,99,.4);}
+  .confirm-hero h3{font-size:24px;margin:0 0 6px;}
+  .confirm-hero p{color:var(--muted);font-size:14.5px;margin:0 auto;max-width:34ch;line-height:1.5;}
+  .sg-actions{display:flex;gap:12px;align-items:center;margin-top:20px;}
+  .sg-actions .back{background:none;border:0;color:var(--muted);font-weight:700;cursor:pointer;font-size:14px;padding:8px;}
+  .sg-actions .back:hover{color:var(--ink);}
+  .sg-actions .btn{flex:1;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;}
+  .pulse{position:fixed;right:22px;bottom:22px;z-index:60;}
+  .pulse button{display:flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,#2d2342,#3a2150);color:#fff;font-weight:800;font-size:14px;box-shadow:0 16px 40px rgba(45,35,66,.5);}
+  .pulse .dot{width:22px;height:22px;border-radius:7px;background:conic-gradient(from 130deg,#7c5cff,#22d3d7,#ff7bd5,#7c5cff);}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<div class="topbar">
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="#top">
+        <span class="mark" id="brandmark"></span>
+        Foxfire Candle Works
+      </a>
+      <div class="nav-links">
+        <a href="#experience">The Experience</a>
+        <a href="#scents">Scents</a>
+        <a href="#shop">Shop</a>
+        <a href="#locations">Locations</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <button class="btn" style="min-height:44px;padding:0 20px" onclick="openBooking()">Book your spot</button>
+    </nav>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">🕯️ Vintage Park · Houston &nbsp;|&nbsp; Lakeland Village · Cypress</span>
+        <h1>Pour your own<br>signature scent.</h1>
+        <p class="lead">Blend from 100+ premium fragrance oils, then pour, label, and take home a candle that's entirely yours. No experience needed — just bring friends.</p>
+        <div class="hero-cta">
+          <button class="btn" onclick="openBooking()">Book your spot →</button>
+          <a class="btn light" href="#experience">How it works</a>
+        </div>
+        <div class="hero-note">✦ Walk-ins welcome 7 days a week · Most visits 30–45 min</div>
+      </div>
+      <div class="hero-card">
+        <div class="float-card">
+          <div class="fc-img" id="card1img"></div>
+          <h4>Signature 8 oz Soy Candle</h4>
+          <div style="color:var(--muted);font-size:13.5px;margin-top:2px">Clean-burning soy blend · cotton wick</div>
+          <div class="row">
+            <span class="price">from $26</span>
+            <button class="btn" style="min-height:40px;padding:0 18px;font-size:13px" onclick="openBooking()">Reserve</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STATS ================= -->
+<div class="container">
+  <div class="stats">
+    <div class="stat"><b>100+</b><span>fragrance oils to blend</span></div>
+    <div class="stat"><b>2</b><span>Houston-area locations</span></div>
+    <div class="stat"><b>30–45<span style="font-size:15px"> min</span></b><span>typical experience</span></div>
+    <div class="stat"><b>$18–70</b><span>you only pay for what you make</span></div>
+  </div>
+</div>
+
+<!-- ================= EXPERIENCE ================= -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">The Experience</span>
+      <h2>Four easy steps to your own scent</h2>
+      <p>Everything is customized at the fragrance bar. Take your time or pour quickly — it's your call.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Smell &amp; explore</h3><p>Sniff your way through 100+ phthalate-free oils at the fragrance bar.</p></div>
+      <div class="step"><div class="n">2</div><h3>Blend your scent</h3><p>Mix oils to build a signature blend that's totally you — our team helps.</p></div>
+      <div class="step"><div class="n">3</div><h3>Pour &amp; label</h3><p>Pour your soy candle, then design and apply your own custom label.</p></div>
+      <div class="step"><div class="n">4</div><h3>Take it home</h3><p>Candles set in ~90 min. Shop nearby and swing back, or pick up tomorrow.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOP / PRODUCTS ================= -->
+<section class="section" id="shop" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Make &amp; Take</span>
+      <h2>More than candles</h2>
+      <p>Blend a signature scent into any of these and choose your products at the counter.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="prod">
+        <div class="pimg" id="prod1"></div>
+        <div class="pbody"><h3>Custom Candles</h3><p>Clean soy blend, cotton wicks, your scent and your label. Our guest favorite.</p><span class="price">from $26</span></div>
+      </div>
+      <div class="prod">
+        <div class="pimg" id="prod2"></div>
+        <div class="pbody"><h3>Reed Diffusers</h3><p>Long-lasting room fragrance you blend yourself — perfect for gifting.</p><span class="price">from $24</span></div>
+      </div>
+      <div class="prod">
+        <div class="pimg" id="prod3"></div>
+        <div class="pbody"><h3>Mists, Melts &amp; More</h3><p>Room &amp; body mists, wax melts, rollerballs, lotion, sugar scrub and bubble bath.</p><span class="price">from $18</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCENT BAND ================= -->
+<section class="section" id="scents" style="padding-top:0">
+  <div class="container">
+    <div class="band">
+      <div class="band-bg" id="bandBg"></div>
+      <span class="eyebrow" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#ffe7c2">I've got 99 scents…</span>
+      <h2>Over 100 fragrances. One is unmistakably yours.</h2>
+      <p>From bright citrus and sea salt to amber, leather, and warm vanilla — our oils are phthalate-free, made by reputable U.S. fragrance houses, and meet IFRA safety standards.</p>
+      <div class="scent-chips">
+        <span class="chip">Sea Salt &amp; Driftwood</span><span class="chip">Amber Noir</span><span class="chip">Vanilla Bourbon</span>
+        <span class="chip">Tobacco &amp; Leather</span><span class="chip">Cactus Flower</span><span class="chip">Spiced Pumpkin</span>
+        <span class="chip">White Tea &amp; Ginger</span><span class="chip">Bergamot Sunrise</span><span class="chip">Cedar &amp; Smoke</span>
+        <span class="chip">Lavender Fields</span><span class="chip">Toasted Marshmallow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOCATIONS ================= -->
+<section class="section" id="locations" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Hours &amp; Locations</span>
+      <h2>Two spots to scent your day</h2>
+      <p>Walk-ins welcome all week. We recommend booking for weekends, holidays, or groups.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc">
+        <span class="tag">Houston</span>
+        <h3>Vintage Park</h3>
+        <p>122 Vintage Park Blvd, Suite C<br>Houston, TX 77070<br>📞 832-458-5392 (call or text)</p>
+        <button class="btn" onclick="openBooking('Vintage Park · Houston')">Book Vintage Park →</button>
+      </div>
+      <div class="loc">
+        <span class="tag">Cypress · Now Open</span>
+        <h3>Lakeland Village</h3>
+        <p>10611 Fry Rd, Suite B2-100<br>Cypress, TX 77433<br>📞 346-592-4783 (call or text)</p>
+        <button class="btn" onclick="openBooking('Lakeland Village · Cypress')">Book Lakeland Village →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head" style="text-align:center;margin-left:auto;margin-right:auto">
+      <span class="eyebrow">Good to know</span>
+      <h2>Frequently asked</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Do I need a reservation?<span class="pl">+</span></summary><p>Walk-ins are welcome 7 days a week at both locations. We recommend booking on weekends, holidays, or for groups. If your preferred time isn't online, call or text the store.</p></details>
+      <details><summary>How long does the candle experience take?<span class="pl">+</span></summary><p>Most visits last 30–45 minutes; larger groups may take 45–60 minutes. Because everything is customized, you can take your time or pour quickly.</p></details>
+      <details><summary>When can I pick up my candle?<span class="pl">+</span></summary><p>Candles set in about 90 minutes (longer for large vessels). Shop or grab a bite nearby and swing back, or pick up the next day.</p></details>
+      <details><summary>What does it cost?<span class="pl">+</span></summary><p>You only pay for what you make. Most products range from $18–$70; our 8 oz candle is $26 and a guest favorite.</p></details>
+      <details><summary>Can kids and dogs join?<span class="pl">+</span></summary><p>Yes! Kids 8+ do great at the fragrance bar, and younger children are welcome with close supervision. Friendly, leashed dogs are always welcome.</p></details>
+      <details><summary>Do you host parties and events?<span class="pl">+</span></summary><p>Absolutely — birthdays, showers, date nights, and team events. Parties of 8+ receive a free host gift when all guests attend. We also offer weddings, wholesale/white-label, and mobile events.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END CTA ================= -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="endcta">
+      <h2>Your scent is waiting.</h2>
+      <p>Grab a few friends and book your spot at the fragrance bar — or walk right in. Either way, you're leaving with something you made.</p>
+      <button class="btn light" onclick="openBooking()">Book your spot →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="b"><span class="mark" id="brandmark2" style="width:34px;height:34px;border-radius:50%"></span> Foxfire Candle Works</div>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:14px">Local candle boutique &amp; fragrance bar. info@foxfirecandleworks.com</p>
+      </div>
+      <div class="foot-links">
+        <a href="#experience">Experience</a><a href="#shop">Shop</a><a href="#scents">Scents</a>
+        <a href="#locations">Locations</a><a href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div style="margin-top:34px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <span>© 2026 Foxfire Candle Works · Mockup</span>
+      <span>Website &amp; booking flow concept by <b style="color:var(--copper)">Singenuity</b></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= SINGENUITY POPUP ================= -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <!-- LEFT: pitch -->
+    <div class="sg-pitch">
+      <div class="sg-brand"><span class="dot"></span> Singenuity</div>
+      <h2 id="pitchTitle">A booking flow built to convert.</h2>
+      <p class="sub" id="pitchSub">Right now, "Book Now" sends your visitors off-site to a generic scheduler — extra clicks, no scent or experience selection, and an easy place to give up. Here's the flow we'd build for Foxfire instead. Try it. →</p>
+      <div class="sg-metrics">
+        <div class="sg-metric"><div class="mwrap"><b>+30%</b></div><span>more completed bookings vs. an off-site scheduler</span></div>
+        <div class="sg-metric"><div class="mwrap"><b>−58%</b></div><span>fewer drop-offs before checkout</span></div>
+        <div class="sg-metric"><div class="mwrap"><b>3 taps</b></div><span>from "Book Now" to a confirmed spot</span></div>
+      </div>
+      <div class="sg-foot">Illustrative demo. Conversion ranges reflect typical results when replacing redirect-based scheduling with an on-site flow.</div>
+    </div>
+
+    <!-- RIGHT: interactive demo -->
+    <div class="sg-demo">
+      <button class="sg-close" onclick="closeBooking()" aria-label="Close">✕</button>
+      <div class="sg-demo-head"><span class="tag">Live Demo</span> · <span style="font-size:12.5px;color:var(--muted)">the experience your customers could have</span></div>
+      <h3 id="stepTitle">Book your candle experience</h3>
+      <div class="progress" id="progress"></div>
+      <div class="stepwrap" id="stepwrap"></div>
+      <div class="sg-actions" id="actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- floating re-open button -->
+<div class="pulse" id="pulse" style="display:none">
+  <button onclick="openBooking()"><span class="dot"></span> See the booking demo</button>
+</div>
+
+<script>
+/* ---------- inline SVG art (created here) ---------- */
+function flame(scale){return `
+  <g transform="translate(0,0)">
+    <ellipse cx="0" cy="0" rx="${26*scale}" ry="${46*scale}" fill="url(#glow)" opacity=".55"/>
+    <path d="M0 ${ -42*scale} C ${14*scale} ${-20*scale} ${16*scale} ${4*scale} 0 ${18*scale} C ${-16*scale} ${4*scale} ${-14*scale} ${-20*scale} 0 ${-42*scale} Z" fill="url(#flameOuter)"/>
+    <path d="M0 ${-26*scale} C ${8*scale} ${-12*scale} ${9*scale} ${4*scale} 0 ${14*scale} C ${-9*scale} ${4*scale} ${-8*scale} ${-12*scale} 0 ${-26*scale} Z" fill="url(#flameInner)"/>
+    <ellipse cx="0" cy="${6*scale}" rx="${3.4*scale}" ry="${8*scale}" fill="#5b86ff" opacity=".9"/>
+  </g>`;}
+
+function defsBlock(){return `
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#ffd27a" stop-opacity=".9"/>
+      <stop offset="45%" stop-color="#ff9a3c" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#ff7a1a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flameOuter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe9a8"/><stop offset="45%" stop-color="#ffb43c"/><stop offset="100%" stop-color="#ff6a1a"/>
+    </linearGradient>
+    <linearGradient id="flameInner" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff7e0"/><stop offset="100%" stop-color="#ffd166"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e7a44e"/><stop offset="35%" stop-color="#c87b2a"/><stop offset="100%" stop-color="#8a4f1e"/>
+    </linearGradient>
+    <linearGradient id="glassHi" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fff3da" stop-opacity=".85"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="wax" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fff1d6"/><stop offset="100%" stop-color="#f0d9ad"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="soft2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>`;}
+
+/* a defocused warm-bokeh background (candlelit room feel) */
+function bokeh(w,h,seed){
+  let circ='';const rnd=mulberry(seed);
+  for(let i=0;i<26;i++){
+    const x=rnd()*w, y=rnd()*h, r=20+rnd()*90, o=.05+rnd()*.22;
+    const col=['#ffd27a','#ff9a3c','#ffb86b','#e07b2a','#fff0c2'][Math.floor(rnd()*5)];
+    circ+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(0)}" fill="${col}" opacity="${o.toFixed(2)}" filter="url(#soft)"/>`;
+  }
+  return circ;
+}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* candle on a surface */
+function candle(x,y,s,glow){return `
+  <g transform="translate(${x},${y}) scale(${s})">
+    ${glow?`<ellipse cx="0" cy="-150" rx="160" ry="150" fill="url(#glow)" opacity=".5" filter="url(#soft)"/>`:''}
+    <g transform="translate(0,-118)">${flame(1.7)}</g>
+    <rect x="-66" y="-96" width="132" height="150" rx="16" fill="url(#glass)"/>
+    <rect x="-66" y="-96" width="40" height="150" rx="16" fill="url(#glassHi)"/>
+    <ellipse cx="0" cy="-96" rx="66" ry="15" fill="url(#wax)"/>
+    <rect x="-2.5" y="-110" width="5" height="18" rx="2" fill="#5b3a1a"/>
+    <ellipse cx="0" cy="56" rx="78" ry="14" fill="#000" opacity=".18" filter="url(#soft2)"/>
+  </g>`;}
+
+/* HERO */
+document.getElementById('heroBg').innerHTML = `
+<svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  ${defsBlock()}
+  <rect width="1440" height="760" fill="#1a1008"/>
+  <rect width="1440" height="760" fill="url(#glow)" opacity=".25"/>
+  ${bokeh(1440,760,7)}
+  <rect x="0" y="560" width="1440" height="200" fill="#120b05" opacity=".6"/>
+  ${candle(1080,560,1.5,true)}
+  ${candle(1270,600,1.05,true)}
+  ${candle(905,600,0.85,true)}
+</svg>`;
+
+/* brand marks */
+const markSvg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${defsBlock()}
+  <rect width="100" height="100" rx="50" fill="#2a1d12"/>
+  <g transform="translate(50,66)">${flame(1.15)}</g>
+  <rect x="34" y="50" width="32" height="34" rx="6" fill="url(#glass)"/>
+  <ellipse cx="50" cy="50" rx="16" ry="4" fill="url(#wax)"/>
+</svg>`;
+const markUrl = 'data:image/svg+xml;utf8,'+encodeURIComponent(markSvg);
+document.getElementById('brandmark').style.background='url("'+markUrl+'") center/cover';
+document.getElementById('brandmark2').style.background='url("'+markUrl+'") center/cover';
+
+/* product / card images */
+function scene(seed,label){return `data:image/svg+xml;utf8,`+encodeURIComponent(`
+<svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  ${defsBlock()}
+  <rect width="600" height="450" fill="#241710"/>
+  <rect width="600" height="450" fill="url(#glow)" opacity=".22"/>
+  ${bokeh(600,450,seed)}
+  <rect x="0" y="330" width="600" height="120" fill="#160d06" opacity=".55"/>
+  ${candle(300,330,1.35,true)}
+</svg>`);}
+
+function sceneMulti(seed){return `data:image/svg+xml;utf8,`+encodeURIComponent(`
+<svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  ${defsBlock()}
+  <rect width="600" height="450" fill="#241710"/>
+  <rect width="600" height="450" fill="url(#glow)" opacity=".2"/>
+  ${bokeh(600,450,seed)}
+  <rect x="0" y="330" width="600" height="120" fill="#160d06" opacity=".55"/>
+  ${candle(200,340,0.95,true)}${candle(330,350,0.8,false)}${candle(440,340,1.05,true)}
+</svg>`);}
+
+document.getElementById('card1img').style.cssText='aspect-ratio:5/4;background:url("'+scene(11)+'") center/cover';
+document.getElementById('prod1').style.background='url("'+scene(3)+'") center/cover';
+document.getElementById('prod2').style.background='url("'+scene(21)+'") center/cover';
+document.getElementById('prod3').style.background='url("'+sceneMulti(31)+'") center/cover';
+document.getElementById('bandBg').style.background='url("'+sceneMulti(44)+'") center/cover';
+
+/* =================== BOOKING DEMO LOGIC =================== */
+const state={location:null,experience:null,party:2,day:null,time:null};
+const days=[];
+(function(){const base=new Date(2026,6,3);const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  for(let i=0;i<6;i++){const d=new Date(base);d.setDate(base.getDate()+i);days.push({dn:dn[d.getDay()],dd:d.getDate(),full:d.toDateString()});}})();
+
+const locations=[
+  {id:'Vintage Park · Houston',t:'Vintage Park',d:'Houston · Vintage Park Blvd',ic:'🏙️'},
+  {id:'Lakeland Village · Cypress',t:'Lakeland Village',d:'Cypress · now open',ic:'🌿'}
+];
+const experiences=[
+  {id:'Signature Candle',t:'Signature Candle',d:'Blend, pour & label · 30–45 min',ic:'🕯️'},
+  {id:'Group / Party',t:'Group / Party',d:'8+ guests · free host gift',ic:'🎉'},
+  {id:'Reed Diffuser Bar',t:'Reed Diffuser Bar',d:'Custom room fragrance',ic:'🌸'},
+  {id:'Date Night',t:'Date Night',d:'Two scents, two pours',ic:'❤️'}
+];
+const times=['11:00','12:30','2:00','3:30','5:00','6:30'];
+const dimTimes={0:['11:00'],5:['5:00','6:30']}; // some "full" slots per day index for realism
+
+let step=0;
+const steps=[stepLocation,stepExperience,stepParty,stepWhen,stepConfirm];
+
+function progressHtml(){
+  let h='';for(let i=0;i<steps.length;i++){h+=`<div class="seg ${i<step?'done':i===step?'active':''}"><i></i></div>`;}return h;
+}
+function render(){
+  document.getElementById('progress').innerHTML=progressHtml();
+  steps[step]();
+}
+function setStep(n){step=Math.max(0,Math.min(steps.length-1,n));render();}
+
+function optBtn(o,selected,onclick,grid){
+  return `<button class="opt ${selected?'sel':''}" onclick="${onclick}">
+    <span class="ic">${o.ic}</span>
+    <span><span class="ot">${o.t}</span><br><span class="od">${o.d}</span></span>
+    <span class="chk">✓</span></button>`;
+}
+
+function stepLocation(){
+  document.getElementById('stepTitle').textContent='Choose your location';
+  document.getElementById('stepwrap').innerHTML=`
+    <p class="qlabel">Where would you like to pour?</p>
+    <p class="qhint">Both locations are open 7 days a week.</p>
+    <div class="opts">${locations.map(l=>optBtn(l,state.location===l.id,`pick('location','${l.id}')`)).join('')}</div>`;
+  document.getElementById('actions').innerHTML=`<button class="btn" ${state.location?'':'disabled'} onclick="setStep(1)">Continue →</button>`;
+}
+function stepExperience(){
+  document.getElementById('stepTitle').textContent='Pick your experience';
+  document.getElementById('stepwrap').innerHTML=`
+    <p class="qlabel">What are we making?</p>
+    <p class="qhint">You can change scents and products at the bar — this just reserves the right setup.</p>
+    <div class="opts grid2">${experiences.map(e=>optBtn(e,state.experience===e.id,`pick('experience','${e.id}')`)).join('')}</div>`;
+  document.getElementById('actions').innerHTML=`<button class="back" onclick="setStep(0)">← Back</button>
+    <button class="btn" ${state.experience?'':'disabled'} onclick="setStep(2)">Continue →</button>`;
+}
+function stepParty(){
+  document.getElementById('stepTitle').textContent='How many guests?';
+  document.getElementById('stepwrap').innerHTML=`
+    <p class="qlabel">Party size</p>
+    <p class="qhint">Groups of 8+ unlock a free host gift when everyone attends. 🎁</p>
+    <div class="counter">
+      <button onclick="changeParty(-1)">−</button>
+      <div><div class="num" id="pnum">${state.party}</div></div>
+      <button onclick="changeParty(1)">+</button>
+    </div>
+    <div class="cap">${state.party>=8?'Nice — your group qualifies for a host gift!':'guests'}</div>`;
+  document.getElementById('actions').innerHTML=`<button class="back" onclick="setStep(1)">← Back</button>
+    <button class="btn" onclick="setStep(3)">Continue →</button>`;
+}
+function stepWhen(){
+  document.getElementById('stepTitle').textContent='Choose a day & time';
+  const di=state.day!=null?state.day:0;
+  const dimmed=dimTimes[di]||[];
+  document.getElementById('stepwrap').innerHTML=`
+    <p class="qlabel">Pick a day</p>
+    <div class="daypick">${days.map((d,i)=>`<button class="day ${state.day===i?'sel':''}" onclick="pick('day',${i})">
+        <div class="dn">${d.dn}</div><div class="dd">${d.dd}</div></button>`).join('')}</div>
+    <p class="qlabel" style="margin-top:6px">Available times</p>
+    <div class="slots">${times.map(t=>{const dim=dimmed.includes(t);
+        return `<button class="slot ${state.time===t?'sel':''} ${dim?'dim':''}" ${dim?'disabled':''} onclick="pick('time','${t}')">${t}</button>`;}).join('')}</div>`;
+  document.getElementById('actions').innerHTML=`<button class="back" onclick="setStep(2)">← Back</button>
+    <button class="btn" ${(state.day!=null&&state.time)?'':'disabled'} onclick="setStep(4)">Review →</button>`;
+}
+function stepConfirm(){
+  document.getElementById('stepTitle').textContent='You’re all set';
+  const d=days[state.day];
+  document.getElementById('stepwrap').innerHTML=`
+    <div class="confirm-hero">
+      <div class="big"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>Spot reserved!</h3>
+      <p>In a real Foxfire site, this confirmation, calendar add, and reminder text would fire instantly — no redirects.</p>
+    </div>
+    <div class="summary" style="margin-top:18px">
+      <div class="sr"><span>Location</span><b>${state.location}</b></div>
+      <div class="sr"><span>Experience</span><b>${state.experience}</b></div>
+      <div class="sr"><span>Guests</span><b>${state.party}</b></div>
+      <div class="sr"><span>When</span><b>${d.dn} ${d.dd} · ${state.time}</b></div>
+    </div>`;
+  document.getElementById('actions').innerHTML=`<button class="back" onclick="setStep(3)">← Edit</button>
+    <button class="btn" onclick="restartDemo()">↺ Run the demo again</button>`;
+}
+
+function pick(key,val){state[key]=val;render();}
+function changeParty(n){state.party=Math.max(1,Math.min(20,state.party+n));document.getElementById('pnum').textContent=state.party;render();}
+function restartDemo(){state.location=null;state.experience=null;state.party=2;state.day=null;state.time=null;setStep(0);}
+
+/* open/close */
+function openBooking(preLoc){
+  if(preLoc){state.location=preLoc;}
+  setStep(preLoc?1:0);
+  const ov=document.getElementById('overlay');
+  ov.classList.add('show');document.body.classList.add('modal-open');
+  document.getElementById('pulse').style.display='none';
+}
+function closeBooking(){
+  document.getElementById('overlay').classList.remove('show');
+  document.body.classList.remove('modal-open');
+  document.getElementById('pulse').style.display='block';
+}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeBooking();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBooking();});
+
+/* auto-open on load like Climbworks */
+window.addEventListener('load',()=>{setTimeout(()=>openBooking(),900);});
+</script>
+</body>
+</html>
